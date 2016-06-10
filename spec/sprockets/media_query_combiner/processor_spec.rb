@@ -1,3 +1,4 @@
+require 'sprockets' # so we know which processor to use in tests
 require 'spec_helper'
 require 'sprockets/media_query_combiner/processor'
 
@@ -58,20 +59,20 @@ CSS
 
   handler = 
     if Sprockets.respond_to? :register_postprocessor
-      result = lambda { |processor, input| processor.call(input) }
+      output = -> (input) { SprocketsProcessor.call(input) }
       SprocketsProcessor
     else
-      result = lambda { |processor, input| processor.new { input }.evaluate(nil, nil) }
+      output = -> (input) { TiltProcessor.new { input }.evaluate(nil, nil) }
       TiltProcessor
     end
 
   describe handler do
     it "should work with pretty css" do
-      result[handler, pretty_input_css].should == pretty_target_css
+      output[pretty_input_css].should == pretty_target_css
     end
 
     it "should work with ugly css" do
-      result[handler, ugly_input_css].should == ugly_target_css
+      output[ugly_input_css].should == ugly_target_css
     end
   end
 
