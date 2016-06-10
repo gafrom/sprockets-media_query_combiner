@@ -59,7 +59,7 @@ CSS
 
   handler = 
     if Sprockets.respond_to? :register_postprocessor
-      output = -> (input) { SprocketsProcessor.call(input) }
+      output = -> (input) { SprocketsProcessor.call( { data: input } ) }
       SprocketsProcessor
     else
       output = -> (input) { TiltProcessor.new { input }.evaluate(nil, nil) }
