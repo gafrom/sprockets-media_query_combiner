@@ -1,28 +1,37 @@
-require 'tilt' unless Sprockets.respond_to? :register_postprocessor
 require 'sass/media_query_combiner/combiner'
 
 module Sprockets
   module MediaQueryCombiner
-
+    
     class Processor
-      def self.choose_processor
-        return self if Sprockets.respond_to? :register_postprocessor
+      def self.choose
+        return SprocketsProcessor if Sprockets.respond_to? :register_postprocessor
         TiltProcessor
       end
+    end
+
+    class SprocketsProcessor
       def self.call(input)
         STDOUT.puts "*"*100 + "Sprockets Processor"
         Sass::MediaQueryCombiner::Combiner.combine input[:data]
       end
     end
 
-    class TiltProcessor < Tilt::Template
-      def prepare
-      end
+    begin    
+      require 'tilt'
 
-      def evaluate(context, locals, &block)
-        STDOUT.puts "*"*100 + "Tilt Processor"
-        Sass::MediaQueryCombiner::Combiner.combine data
+      class TiltProcessor < Tilt::Template
+        def prepare
+        end
+
+        def evaluate(context, locals, &block)
+          STDOUT.puts "*"*100 + "Tilt Processor"
+          Sass::MediaQueryCombiner::Combiner.combine data
+        end
       end
+    
+    rescue LoadError
+      STDOUT.puts "Using native Sprockets processor"
     end
 
   end
