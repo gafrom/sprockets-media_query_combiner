@@ -61,7 +61,7 @@ CSS
       result = lambda { |processor, input| processor.call(input) }
       SprocketsProcessor
     else
-      result = lambda { |processor, input| processor.new( { input } ).evaluate(nil, nil) }
+      result = lambda { |processor, input| processor.new { input }.evaluate(nil, nil) }
       TiltProcessor
     end
 
