@@ -1,7 +1,8 @@
 language: ruby
-rvm:
- - 1.9
- - 2.2
- - rbx-2
 before_install:
- - gem update bundler
+  - gem install bundler
+rvm:
+  - 1.9
+  - 2.1
+  - 2.2
+
