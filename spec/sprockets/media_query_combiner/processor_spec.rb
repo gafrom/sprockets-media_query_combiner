@@ -59,15 +59,15 @@ CSS
 
   versions_to_test = [2, 3]
   gem_spec = Gem::Specification.find_by_name 'sprockets'
-  v = gem_spec.version.to_s[0,1].to_i
+  init_version = gem_spec.version.to_s[0,1].to_i
   
-  versions_to_test.each do |version|
+  versions_to_test.each do |test_version|
 
     # install Sprockets if necessary
-    if version != v
+    if test_version != init_version
       require 'rubygems/commands/install_command'
       cmd = Gem::Commands::InstallCommand.new
-      cmd.handle_options ["--no-ri", "--no-rdoc", 'sprockets', '--version', "#{v}.6.0"]
+      cmd.handle_options ["--no-ri", "--no-rdoc", 'sprockets', '--version', "#{test_version}.6.0"]
 
       begin
         cmd.execute
@@ -75,8 +75,8 @@ CSS
         puts "DONE: #{e.exit_code}"
       end
 
-      puts "* using sprockets #{v}.6.0"
-      gem 'sprockets', "#{v}.6.0"
+      puts "* using sprockets #{test_version}.6.0"
+      gem 'sprockets', "#{test_version}.6.0"
       require 'sprockets'
     end
 
@@ -87,7 +87,7 @@ CSS
         lambda { |input| Processor.new { input }.evaluate(nil, nil) }
       end
 
-    describe "Processor running with Sprockets #{version}" do
+    describe "Processor running with Sprockets #{test_version}" do
       it "should work with pretty css" do
         output[pretty_input_css].should == pretty_target_css
       end
