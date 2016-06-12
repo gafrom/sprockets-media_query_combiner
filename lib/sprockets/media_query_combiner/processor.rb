@@ -1,10 +1,10 @@
-require 'sprockets'
 require 'sass/media_query_combiner/combiner'
 
 module Sprockets
   module MediaQueryCombiner
 
-    if Sprockets::VERSION[0,1].to_i >= 3
+    spec = Gem::Specification.find_by_name 'sprockets'
+    if spec.version.to_s[0,1].to_i >= 3
       class Processor
         def self.call(input)
           Sass::MediaQueryCombiner::Combiner.combine input[:data]

@@ -1,4 +1,3 @@
-require 'sprockets' # so we know which processor to use in tests
 require 'spec_helper'
 require 'sprockets/media_query_combiner/processor'
 
@@ -76,8 +75,7 @@ CSS
       end
 
       puts "* using sprockets #{test_version}.6.0"
-      gem 'sprockets', "#{test_version}.6.0"
-      require 'sprockets'
+      load 'sprockets'
     end
 
     output = 
