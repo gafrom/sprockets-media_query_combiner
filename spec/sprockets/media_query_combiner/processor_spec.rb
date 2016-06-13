@@ -69,5 +69,4 @@ CSS
       output[ugly_input_css].should == ugly_target_css
     end
   end
-    
 end
