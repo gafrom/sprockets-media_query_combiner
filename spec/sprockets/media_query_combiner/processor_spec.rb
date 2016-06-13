@@ -58,12 +58,7 @@ CSS
   ugly_target_css = "h3{color:orange}@media (max-width:480px){h1{color:red}h2{color:blue}}@media (max-width:980px){h4{color:black}}\n"
 
 
-  output = 
-    if Sprockets::VERSION[0,1].to_i >= 3
-      lambda { |input| Processor.call( { data: input } ) }
-    else
-      lambda { |input| Processor.new { input }.evaluate(nil, nil) }
-    end
+  output = lambda { |input| Processor.call( { data: input } ) }
 
   describe Processor do
     it "should work with pretty css" do
